@@ -13,6 +13,12 @@ class Contendor:
     def __init__(self, name):
         self.name = name
 
+    def isAlive(self):
+        alive = False
+        if self.health > 0:
+            alive = True
+        return alive
+
     def recieveDamage(self, damage):
         self.health = self.health - damage
 
@@ -20,9 +26,9 @@ class Contendor:
         return random.randint(1, self.weaponDamage)
 
     def hitEnemy(self, enemy):
-        isHit = False
-        hitRoll = random.randint(1, 20)
+        if self.isAlive():
+            hitRoll = random.randint(1, 20)
 
-        if hitRoll > self.thac0 - enemy.armorClass:
-            enemy.damage(self.calcDamage())
+            if hitRoll > self.thac0 - enemy.armorClass:
+                enemy.recieveDamage(self.calcDamage())
 
